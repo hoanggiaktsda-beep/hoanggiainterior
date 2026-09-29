@@ -202,7 +202,7 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 <div class="studioRail"><div><b>01 / DEFINE</b><span>Không gian · brief · phong cách</span></div><div><b>02 / COMPOSE</b><span>Tỷ lệ · nội thất · vật liệu</span></div><div><b>03 / LIGHT</b><span>Ánh sáng · camera · atmosphere</span></div><div><b>04 / RENDER</b><span>Prompt gọn · sẵn sàng tạo ảnh</span></div></div>
 <div class="materialStrip"><div><b>BLACK</b><span>Charcoal / Obsidian</span></div><div><b>STONE</b><span>Travertine / Marble</span></div><div><b>WOOD</b><span>Walnut / Oak</span></div><div><b>METAL</b><span>Bronze / Dark Brass</span></div><div><b>TEXTILE</b><span>Leather / Bouclé</span></div></div>
 
-<section class="card"><label for="channel">Kênh tạo prompt</label><select id="channel" onchange="toggleProductMode()"><option value="space">Thiết kế không gian</option><option value="product">Đưa sản phẩm vào không gian</option></select><div id="channelHint" class="muted" style="margin-top:7px">Thiết kế không gian theo tư duy kiến trúc, nội thất, vật liệu, ánh sáng và camera đã chọn.</div></section><section class="card" id="brief"><label for="brief">Ý tưởng / yêu cầu thiết kế</label><textarea id="brief" placeholder="Ví dụ: Cải tạo phòng khách cao cấp, giữ nguyên kiến trúc và bộ sofa hiện tại, thay bàn trà bằng đá travertine, bổ sung ánh sáng hắt ấm..."></textarea>
+<section class="card"><label for="channel">Kênh tạo prompt</label><select id="channel" onchange="toggleProductMode()"><option value="space">Thiết kế không gian</option><option value="product">Đưa sản phẩm vào không gian</option></select><div id="channelHint" class="muted" style="margin-top:7px">Thiết kế không gian theo tư duy kiến trúc, nội thất, vật liệu, ánh sáng và camera đã chọn.</div></section><section class="card" id="briefCard"><label for="brief">Ý tưởng / yêu cầu thiết kế</label><textarea id="brief" placeholder="Ví dụ: Cải tạo phòng khách cao cấp, giữ nguyên kiến trúc và bộ sofa hiện tại, thay bàn trà bằng đá travertine, bổ sung ánh sáng hắt ấm..."></textarea>
 <div class="row"><div><label>Loại không gian</label><select id="room"><option>Phòng khách</option><option>Phòng ngủ chính</option><option>Phòng ngủ trẻ em</option><option>Phòng ăn</option><option>Bếp</option><option>Phòng làm việc</option><option>Phòng thay đồ</option><option>Phòng tắm</option><option>Phòng giải trí</option><option>Phòng thờ</option><option>Sảnh</option><option>Hành lang</option><option>Phòng họp</option><option>Văn phòng</option><option>Showroom</option><option>Cửa hàng</option><option>Nhà hàng</option><option>Khách sạn</option><option>Spa</option><option>Quán cà phê</option><option>Biệt thự</option><option>Căn hộ</option><option>Nhà phố</option><option>Không gian ngoài trời</option><option>Không gian khác</option></select></div>
 <div><label>Phong cách thiết kế</label><select id="style">
 <option>Tối giản</option><option>Hiện đại</option><option>Đương đại</option><option>Sang trọng hiện đại</option><option>Tối giản sang trọng</option><option>Cổ điển</option><option>Tân cổ điển</option><option>Cổ điển đương đại</option><option>Art Deco</option><option>Art Nouveau</option><option>Mid-Century Modern</option><option>Bắc Âu</option><option>Japandi</option><option>Wabi-Sabi</option><option>Muji</option><option>Industrial — Công nghiệp</option><option>Loft</option><option>Rustic</option><option>Farmhouse</option><option>Modern Farmhouse</option><option>Địa Trung Hải</option><option>Coastal — Ven biển</option><option>Tropical — Nhiệt đới</option><option>Biophilic — Sinh học</option><option>Organic Modern</option><option>Modern Classic</option><option>Transitional</option><option>Contemporary Classic</option><option>French Contemporary</option><option>Parisian</option><option>Italian Contemporary</option><option>Scandinavian Contemporary</option><option>Japanese Contemporary</option><option>Chinese Contemporary</option><option>Á Đông đương đại</option><option>Indochine — Đông Dương</option><option>Việt Nam đương đại</option><option>Châu Á tối giản</option><option>Ma-rốc</option><option>Bohemian — Boho</option><option>Maximalism — Tối đa</option><option>Eclectic — Chiết trung</option><option>Neobrutalism — Tân thô mộc</option><option>Parametric — Tham số</option><option>Futuristic — Vị lai</option><option>Avant-Garde — Tiên phong</option><option>Luxury Resort — Nghỉ dưỡng cao cấp</option><option>Bespoke Luxury — May đo cao cấp</option><option>Phong cách kết hợp / Tự mô tả</option>
@@ -301,16 +301,16 @@ function analyzeProduct(){const box=document.getElementById('productAnalysis');i
 function analyzeImage(){const box=document.getElementById('analysis');if(!imageMeta.width){box.style.display='block';box.innerHTML='<b>Chưa có ảnh.</b>';return}const r=imageMeta.width/imageMeta.height,land=r>1.18,port=r<.85;const rec=land?[['Góc chính','Góc rộng 24–28mm','Ưu tiên thể hiện toàn bộ không gian và chiều sâu.'],['Góc kiến trúc','Hai điểm tụ','Giữ đường đứng thẳng, phù hợp visualization cao cấp.'],['Góc chi tiết','50–85mm','Khai thác vật liệu, đồ nội thất và chi tiết bespoke.']]:port?[['Góc chính','35–50mm, góc mắt người','Tập trung trục nhìn, chiều cao và điểm nhấn.'],['Góc kiến trúc','Hai điểm tụ','Giữ hình học ổn định, hạn chế méo.'],['Góc chi tiết','50–85mm','Tập trung vật liệu và chi tiết nội thất.']]:[['Góc chính','35mm, góc mắt người','Cân bằng không gian, hạn chế kéo giãn.'],['Góc kiến trúc','Hai điểm tụ','Phù hợp phối cảnh kiến trúc nội thất.'],['Góc chi tiết','50–85mm','Nhấn mạnh vật liệu và đồ nội thất.']];imageMeta.recommendations=rec;box.style.display='block';box.innerHTML='<b>PHÂN TÍCH GÓC NHÌN — HOANGGIA AI</b><br><span class="muted">'+imageMeta.width+' × '+imageMeta.height+' px · tỷ lệ '+r.toFixed(2)+'</span><div class="suggestions">'+rec.map(x=>'<div class="suggestion"><strong>'+x[0]+'</strong>'+x[1]+'<br><span class="muted">'+x[2]+'</span></div>').join('')+'</div><br><span class="muted">Đây là bộ quy tắc visualization chạy trực tiếp trên trình duyệt, chưa phải mô hình vision AI hiểu ngữ nghĩa toàn ảnh. Có thể nâng cấp bước sau để nhận diện cửa sổ, điểm tụ, sofa, đảo bếp, cầu thang, vùng sáng và điểm nhấn thực tế.</span>'}
 
 function renderQuickResult(prompt){const q=document.getElementById("quickResult"),qo=document.getElementById("quickOut");if(q&&qo){qo.value=prompt;q.classList.add("show");q.scrollIntoView({behavior:"smooth",block:"center"})}}
-async function copyQuickPrompt(){const qo=document.getElementById("quickOut");if(!qo.value)generate();try{await navigator.clipboard.writeText(qo.value+"\n\nYÊU CẦU LOẠI TRỪ:\n"+document.getElementById("negative").value);setGenStatus("Đã COPY prompt — có thể DÁN ngay vào AI.");}catch(e){qo.select();document.execCommand("copy");setGenStatus("Đã COPY prompt.");}}
+async function copyQuickPrompt(){const qo=document.getElementById("quickOut");if(!qo.value)generate();const text=qo.value.trim();try{await navigator.clipboard.writeText(text);setGenStatus("Đã COPY prompt — có thể DÁN ngay vào AI.");}catch(e){qo.focus();qo.select();try{document.execCommand("copy");setGenStatus("Đã COPY prompt.");}catch(err){setGenStatus("Không thể tự COPY. Hãy chọn prompt và sao chép thủ công.");}}}
 function generate(){
  const brief=v('brief').trim()||'Thiết kế lại không gian theo các thông số đã chọn';
  const ref=imageMeta.recommendations.length ? imageMeta.recommendations[0][1] : v('camera');
  const keep=[];
- if(document.getElementById('arch').checked) keep.push('preserve existing architecture, walls, ceiling and structure');
- if(document.getElementById('furn').checked) keep.push('preserve existing furniture design, proportions and materials');
- if(document.getElementById('cam').checked) keep.push('preserve original camera angle, framing and composition');
- if(document.getElementById('window').checked) keep.push('preserve doors, windows and existing daylight');
- if(document.getElementById('scale').checked) keep.push('preserve real-world proportions and dimensions');
+ if(document.getElementById('arch').checked) keep.push('giữ nguyên kiến trúc hiện có, tường, trần và kết cấu');
+ if(document.getElementById('furn').checked) keep.push('giữ nguyên mẫu mã, tỷ lệ và vật liệu của đồ nội thất hiện có');
+ if(document.getElementById('cam').checked) keep.push('giữ nguyên góc máy, khung hình và bố cục ban đầu');
+ if(document.getElementById('window').checked) keep.push('giữ nguyên cửa, cửa sổ và nguồn sáng tự nhiên hiện có');
+ if(document.getElementById('scale').checked) keep.push('giữ đúng tỷ lệ và kích thước thực tế');
  const preservation=keep.length?keep.join('; '):'chỉ thay đổi đúng các hạng mục được yêu cầu';
  const productMode=v('channel')==='product';
  const productLine=productMode?'Chế độ đưa sản phẩm vào không gian: '+v('productType')+'. '+v('productPreserve')+'. Đặt sản phẩm vào vị trí phù hợp với công năng, tỷ lệ, luồng giao thông và phong cách của không gian. Tự đề xuất đồ vật đi kèm cần thiết nhưng phải đồng bộ, tiết chế và không lấn át sản phẩm. Đề xuất hiện có: '+(productMeta.recommendations.join('; ')||'tự phân tích theo không gian')+'.':'';
@@ -328,7 +328,7 @@ function generate(){
   productMode && productMeta.src ? 'Bố cục canvas: đặt sản phẩm tại vị trí đã chọn trong Interior Canvas, ưu tiên đúng tỷ lệ và hướng sản phẩm; chỉ hiệu chỉnh nhẹ nếu cần để hợp phối cảnh, mặt sàn, điểm tựa và giao thông.' : '',
   'Không tự ý thiết kế lại ngoài yêu cầu; không biến dạng, nhân đôi vật thể, thêm cửa hoặc cửa sổ, làm vật liệu giống nhựa, phong cách hoạt hình hoặc CGI, HDR quá mức, chữ, logo hay hình mờ. Hãy tạo ảnh.'
  ].join(' ');
- const compact=prompt.replace(/\\s+/g,' ').trim();
+ const compact=prompt.replace(/\s+/g,' ').trim();
  document.getElementById('out').value=compact;
  renderQuickResult(compact);
  setGenStatus('Prompt tiếng Việt đã sẵn sàng — ngắn gọn và có thể copy sang nền tảng AI.');
@@ -351,9 +351,9 @@ async function generateImage(){
    const im=await blobToBase64(ref.src);input.push({type:'image',mime_type:im.mime,data:im.data});
   }
   if(productModeAvailable()){const p=document.getElementById('productPreview');if(p&&p.src&&p.style.display!=='none'&&p.naturalWidth){const pi=await blobToBase64(p.src);input.push({type:'image',mime_type:pi.mime,data:pi.data});}}
-  input.push({type:'text',text:prompt});
+  const textPart={type:"text",text:prompt}; input.unshift(textPart);
   const model=document.getElementById('geminiModel').value;
-  const body={model,input,response_format:{type:'image',aspect_ratio:document.getElementById('aspect').value}};
+  const body={model,input,response_format:{type:"image",mime_type:"image/png",aspect_ratio:document.getElementById("aspect").value,image_size:"2K"}};
   const r=await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
   const data=await r.json();
   if(!r.ok)throw new Error(data.error?.message||'Gemini API trả về lỗi.');
@@ -388,7 +388,7 @@ async function copyPrompt(){
   setGenStatus('Đã COPY prompt.');
  }
 }
-function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";clearProductImage();document.getElementById("channel").value="space";toggleProductMode();document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");}
+function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";document.getElementById("channel").value="space";clearProductImage();toggleProductMode();closeCamera();imageMeta={width:0,height:0,recommendations:[]};document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
 
 /* ===== MINI GAME: INTERIOR SNAP ===== */
 const gameRounds=[
@@ -417,4 +417,31 @@ function canvasPointerUp(){canvasDrag.active=false}
 function initInteriorCanvas(){const f=canvasEl();if(!f)return;f.addEventListener('mousedown',canvasPointerDown);window.addEventListener('mousemove',canvasPointerMove);window.addEventListener('mouseup',canvasPointerUp);f.addEventListener('touchstart',canvasPointerDown,{passive:false});window.addEventListener('touchmove',canvasPointerMove,{passive:false});window.addEventListener('touchend',canvasPointerUp);f.addEventListener('wheel',e=>{const o=document.getElementById('canvasProduct');if(!o||o.style.display==='none')return;e.preventDefault();let v=Number(document.getElementById('canvasScale').value)+(e.deltaY<0?2:-2);v=Math.max(15,Math.min(70,v));document.getElementById('canvasScale').value=v;scaleCanvasProduct(v)},{passive:false})}
 
 function studioJump(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.studioNav button').forEach(b=>b.classList.remove('active'));const map={brief:0,reference:1,furniture:2,light:3,render:4};const btn=document.querySelectorAll('.studioNav button')[map[id]];if(btn)btn.classList.add('active')}
-</script><script>document.addEventListener('DOMContentLoaded',initInteriorCanvas);</script></body></html>
+</script><script>document.addEventListener('DOMContentLoaded',initInteriorCanvas);</script><script>
+(function(){
+  const originalGenerate=window.generate;
+  window.generate=function(){
+    try{
+      originalGenerate();
+      const out=document.getElementById("out");
+      if(out) out.scrollIntoView({behavior:"smooth",block:"center"});
+    }catch(err){
+      console.error(err);
+      if(typeof setGenStatus==="function") setGenStatus("Có lỗi khi tạo prompt: "+(err&&err.message?err.message:"không xác định"));
+    }
+  };
+  window.addEventListener("beforeunload",function(){
+    if(typeof closeCamera==="function") closeCamera();
+  });
+  document.addEventListener("keydown",function(e){
+    if((e.metaKey||e.ctrlKey)&&false){e.preventDefault();return;}
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="enter"){
+      const active=document.activeElement;
+      if(active && ["TEXTAREA","INPUT"].includes(active.tagName) && active.id==="brief"){
+        e.preventDefault();
+        if(typeof generate==="function") generate();
+      }
+    }
+  });
+})();
+</script></body></html>
