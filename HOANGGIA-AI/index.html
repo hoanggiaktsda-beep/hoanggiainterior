@@ -242,6 +242,27 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 <img id="preview" class="preview" alt="Ảnh tham chiếu">
 <div id="analysis" class="analysis" style="display:none"></div>
 <div class="actions"><button class="primary" onclick="analyzeImage()">PHÂN TÍCH & ĐỀ XUẤT GÓC NHÌN</button></div></div></section><section class="card"><label for="materials">Vật liệu / màu sắc / chi tiết ưu tiên</label><textarea id="materials" placeholder="Ví dụ: gỗ óc chó tự nhiên, travertine kem, da bò cognac, kim loại champagne, kính khói, vải boucle..."></textarea>
+<label style="margin-top:15px">Loại đầu ra hình ảnh</label><select id="visualOutput">
+<option value="photoreal">Hình ảnh thực tế — Photorealistic</option>
+<option value="archviz3d">Hình ảnh 3D — Photorealistic ArchViz</option>
+<option value="concept3d">Hình ảnh 3D — Concept Design</option>
+<option value="clay3d">Hình ảnh 3D — Clay / trắng vật liệu</option>
+<option value="cinematic">Hình ảnh điện ảnh — Cinematic</option>
+<option value="editorial">Hình ảnh tạp chí — Editorial</option>
+<option value="product">Ảnh sản phẩm — Studio / Commercial</option>
+<option value="sketch">Tranh phác thảo — Architectural Sketch</option>
+<option value="lineart">Bản vẽ nét — Line Art</option>
+<option value="watercolor">Tranh màu nước — Watercolor</option>
+<option value="gouache">Tranh gouache — Gouache Painting</option>
+<option value="oil">Tranh sơn dầu — Oil Painting</option>
+<option value="pencil">Tranh chì màu — Colored Pencil</option>
+<option value="ink">Tranh mực — Ink Wash</option>
+<option value="collage">Tranh ghép — Architectural Collage</option>
+<option value="axonometric">Phối cảnh trục đo — Axonometric</option>
+<option value="technical">Bản vẽ kỹ thuật — Technical Drawing</option>
+<option value="diagram">Sơ đồ ý tưởng — Design Diagram</option>
+<option value="moodboard">Bảng ý tưởng — Moodboard</option>
+</select>
 <label style="margin-top:15px">Công cụ AI dự kiến sử dụng</label><select id="ai"><option>Công cụ tạo ảnh AI bất kỳ</option><option>Lovart</option><option>Nano Banana</option><option>Midjourney</option><option>Flux</option><option>Dùng làm prompt tham khảo</option></select>
 <label style="margin-top:15px">Các yếu tố bắt buộc bảo toàn</label><div class="checks"><label><input type="checkbox" id="arch" checked>Kiến trúc, tường, trần</label><label><input type="checkbox" id="furn" checked>Mẫu mã nội thất hiện có</label><label><input type="checkbox" id="cam" checked>Góc máy, bố cục</label><label><input type="checkbox" id="photo" checked>Hình ảnh chân thực cao</label><label><input type="checkbox" id="window" checked>Cửa, ô cửa, nguồn sáng</label><label><input type="checkbox" id="scale" checked>Tỷ lệ và kích thước thực tế</label></div>
 <div class="actions"><button class="primary" onclick="generate()">TẠO KẾT QUẢ NGAY</button><button class="secondary" onclick="resetAll()">XÓA NHẬP LIỆU</button></div></section>
@@ -315,11 +336,35 @@ function generate(){
  if(document.getElementById('window').checked) keep.push('giữ nguyên cửa, cửa sổ và nguồn sáng tự nhiên hiện có');
  if(document.getElementById('scale').checked) keep.push('giữ đúng tỷ lệ và kích thước thực tế');
  const preservation=keep.length?keep.join('; '):'chỉ thay đổi đúng các hạng mục được yêu cầu';
- const productMode=v('channel')==='product';
+ const visualDNA={
+photoreal:'Hình ảnh thực tế cao cấp, cảm giác như ảnh chụp thật; vật liệu, ánh sáng, phản xạ, bóng đổ và tỷ lệ phải tự nhiên, không có cảm giác ảnh dựng.',
+archviz3d:'Hình ảnh 3D kiến trúc nội thất cao cấp theo hướng photorealistic ArchViz; hình học sạch, vật liệu PBR chân thực, ánh sáng vật lý hợp lý, phản xạ và bóng đổ kiểm soát.',
+concept3d:'Hình ảnh 3D concept design; ưu tiên hình khối, tỷ lệ, vật liệu và ý tưởng không gian, vẫn giữ logic kiến trúc và khả năng phát triển thành thiết kế thực tế.',
+clay3d:'Hình ảnh 3D clay render đơn sắc; bề mặt vật thể trung tính, làm rõ hình khối, tỷ lệ, ánh sáng, cấu trúc và bố cục, hạn chế màu vật liệu.',
+cinematic:'Hình ảnh điện ảnh; bố cục có chủ đích, chiều sâu thị giác, ánh sáng tạo không khí, tương phản tinh tế và cảm giác khung hình điện ảnh.',
+editorial:'Hình ảnh nội thất phong cách tạp chí thiết kế cao cấp; bố cục tinh gọn, art direction rõ ràng, vật liệu và đồ nội thất được trình bày như một editorial spread.',
+product:'Ảnh sản phẩm nội thất chuyên nghiệp; sản phẩm là chủ thể chính, tỷ lệ và chi tiết chính xác, ánh sáng studio hoặc lifestyle có kiểm soát, nền và không gian hỗ trợ sản phẩm.',
+sketch:'Tranh phác thảo kiến trúc bằng tay; nét bút tự nhiên, thể hiện nhanh tỷ lệ, hình khối, không gian và ý tưởng thiết kế, không cần hoàn thiện như ảnh render.',
+lineart:'Bản vẽ nét kiến trúc sạch; đường nét rõ, phân cấp nét hợp lý, hình học chính xác, tối giản màu và tập trung vào cấu trúc không gian.',
+watercolor:'Tranh màu nước kiến trúc; nét vẽ nhẹ, màu trong, loang màu tự nhiên, giữ rõ hình khối và tỷ lệ không gian, cảm giác thủ công tinh tế.',
+gouache:'Tranh gouache kiến trúc; mảng màu đặc vừa phải, giàu chất liệu giấy và nét cọ, hình khối rõ ràng nhưng vẫn mang tính minh họa nghệ thuật.',
+oil:'Tranh sơn dầu; chất liệu cọ và sắc độ giàu chiều sâu, ánh sáng nghệ thuật, bề mặt tranh hữu cơ, nhưng vẫn giữ nhận diện không gian và kiến trúc.',
+pencil:'Tranh chì màu; nét chì và lớp màu thủ công tinh tế, thể hiện vật liệu, ánh sáng và hình khối bằng kỹ thuật minh họa kiến trúc.',
+ink:'Tranh mực và wash; đường nét giàu biểu cảm, mảng sáng tối bằng wash, tối giản màu và nhấn mạnh hình khối, ánh sáng, không khí.',
+collage:'Tranh ghép kiến trúc; kết hợp ảnh, giấy, texture, nét vẽ và mảng vật liệu có chủ đích để diễn đạt concept, không làm mất cấu trúc không gian.',
+axonometric:'Phối cảnh trục đo kiến trúc; không gian được trình bày rõ theo axonometric, nhấn mạnh layout, quan hệ khối, đồ nội thất và lưu thông.',
+technical:'Bản vẽ kỹ thuật kiến trúc/nội thất; đường nét, kích thước tương đối, cấu tạo, mặt bằng hoặc mặt đứng rõ ràng, ưu tiên tính chính xác và khả năng đọc bản vẽ.',
+diagram:'Sơ đồ ý tưởng thiết kế; dùng hình khối, mũi tên, lớp thông tin và chú giải trực quan để giải thích công năng, lưu thông, ánh sáng hoặc concept.',
+moodboard:'Bảng ý tưởng nội thất; kết hợp vật liệu, màu sắc, texture, đồ nội thất, ánh sáng và hình ảnh tham chiếu thành một bố cục art direction thống nhất.'
+};
+const visualMode=v('visualOutput')||'photoreal';
+const visualLine='Loại đầu ra hình ảnh: '+(visualDNA[visualMode]||visualDNA.photoreal)+'.';
+const productMode=v('channel')==='product';
  const productLine=productMode?'Chế độ đưa sản phẩm vào không gian: '+v('productType')+'. '+v('productPreserve')+'. Đặt sản phẩm vào vị trí phù hợp với công năng, tỷ lệ, luồng giao thông và phong cách của không gian. Tự đề xuất đồ vật đi kèm cần thiết nhưng phải đồng bộ, tiết chế và không lấn át sản phẩm. Đề xuất hiện có: '+(productMeta.recommendations.join('; ')||'tự phân tích theo không gian')+'.':'';
  const prompt=[
   'Yêu cầu thiết kế: '+brief+'.',
   'Không gian: '+v('room')+'; phong cách: '+v('style')+'.',
+  visualLine,
   productLine,
   'Tư duy thiết kế: '+v('focus')+'; hệ tư duy kiến trúc: '+v('architect')+'.',
   'Đồ nội thất: '+v('furnitureType')+', theo trường phái '+v('furnitureLens')+', thiết kế may đo tinh tế; tham chiếu ngôn ngữ thiết kế '+v('furnitureBrand')+'.',
@@ -392,7 +437,7 @@ async function copyPrompt(){
   setGenStatus('Đã COPY prompt.');
  }
 }
-function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";document.getElementById("channel").value="space";clearProductImage();toggleProductMode();closeCamera();imageMeta={width:0,height:0,recommendations:[]};document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");const scene=document.getElementById("sceneCanvasImage"),overlay=document.getElementById("canvasProduct"),empty=document.getElementById("canvasEmpty");if(scene){scene.removeAttribute("src");scene.style.display="none"}if(overlay)overlay.style.display="none";if(empty)empty.style.display="block";const scale=document.getElementById("canvasScale");if(scale){scale.value=35;document.getElementById("canvasScaleValue").textContent="35%"}if(typeof setCanvasMeta==="function")setCanvasMeta("Canvas đã được làm mới.");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
+function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";document.getElementById("channel").value="space";document.getElementById("visualOutput").value="photoreal";clearProductImage();toggleProductMode();closeCamera();imageMeta={width:0,height:0,recommendations:[]};document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");const scene=document.getElementById("sceneCanvasImage"),overlay=document.getElementById("canvasProduct"),empty=document.getElementById("canvasEmpty");if(scene){scene.removeAttribute("src");scene.style.display="none"}if(overlay)overlay.style.display="none";if(empty)empty.style.display="block";const scale=document.getElementById("canvasScale");if(scale){scale.value=35;document.getElementById("canvasScaleValue").textContent="35%"}if(typeof setCanvasMeta==="function")setCanvasMeta("Canvas đã được làm mới.");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
 
 /* ===== MINI GAME: INTERIOR SNAP ===== */
 const gameRounds=[
