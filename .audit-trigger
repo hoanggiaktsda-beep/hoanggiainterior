@@ -1,1 +1,1 @@
-syntax audit trigger final
+syntax audit after newline fix
