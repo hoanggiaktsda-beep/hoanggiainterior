@@ -190,6 +190,16 @@ async function openSelectedAI(){
  window.open(urls[platform],'_blank','noopener');
  setGenStatus('Đã sao chép toàn bộ prompt và mở '+document.getElementById('genPlatform').selectedOptions[0].text+'. Dán prompt và đưa ảnh tham chiếu vào nền tảng đó.');
 }
-async function copyPrompt(){var o=document.getElementById('out');if(!o.value)generate();try{await navigator.clipboard.writeText(o.value);alert('Đã sao chép prompt.')}catch(e){o.select();document.execCommand('copy');alert('Đã sao chép prompt.')}}
+async function copyPrompt(){
+ if(!document.getElementById('out').value) generate();
+ const prompt=getFullPrompt();
+ try{
+  await navigator.clipboard.writeText(prompt);
+  setGenStatus('Đã COPY prompt — mở nền tảng AI và DÁN để tạo ảnh ngay.');
+ }catch(e){
+  const o=document.getElementById('out'); o.value=prompt; o.select(); document.execCommand('copy');
+  setGenStatus('Đã COPY prompt.');
+ }
+}
 function resetAll(){document.getElementById('brief').value='';document.getElementById('materials').value='';document.getElementById('out').value=''}
 </script></body></html>
