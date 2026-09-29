@@ -1,0 +1,32 @@
+name: Validate HOANGGIA AI JavaScript
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    if: ${{ github.event.head_commit.message != 'Validate HOANGGIA AI JavaScript' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract and syntax-check inline JavaScript
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path("HOANGGIA-AI/index.html").read_text(encoding="utf-8")
+          scripts=re.findall(r"<script(?:[^>]*)>([\\s\\S]*?)</script>",s,re.I)
+          Path("/tmp/inline.js").write_text("\n".join(scripts),encoding="utf-8")
+          print("scripts:",len(scripts),"bytes:",len(Path("/tmp/inline.js").read_bytes()))
+          PY
+          node --check /tmp/inline.js
+      - name: Remove temporary validator
+        if: ${{ success() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/validate-hoanggia-js.yml
+          git add -u
+          git commit -m "Validate HOANGGIA AI JavaScript"
+          git push
