@@ -265,7 +265,7 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 <section class="card full" id="render"><label for="negative">YÊU CẦU LOẠI TRỪ</label><textarea id="negative" readonly>Không thay đổi kiến trúc, tường, trần, chiều cao trần, cửa, cửa sổ, kết cấu, tỷ lệ không gian hoặc góc máy gốc. Không tự ý thiết kế lại đồ nội thất hiện có nếu chưa được yêu cầu. Không làm biến dạng đồ nội thất, không nhân đôi vật thể, không méo hình học, không xuất hiện cửa hoặc cửa sổ thừa, không làm vật liệu giả nhựa, không làm da giống nhựa, không phong cách hoạt hình, không cảm giác CGI, không HDR quá mức, không quá sắc nét, không nhòe, không nhiễu, không độ phân giải thấp, không sai phối cảnh, không méo cạnh, không thêm đồ trang trí ngẫu nhiên, không chữ, không logo, không hình mờ.</textarea></section>
 </div><footer><div class="creatorFooter"><div><h2>HOÀNG GIA</h2><p class="creatorRole">Architect · Interior Designer · Founder · Art Direction · AI Design</p><p>☎ 0368.250.848</p></div><div class="creatorLinks"><a href="tel:0368250848">☎ 0368.250.848</a><a href="https://www.facebook.com/share/1Dw7UVryGH/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook cá nhân</a><a href="https://www.tiktok.com/@kts.hoanggia.da?_r=1&_t=ZS-9A94K57E0yg" target="_blank" rel="noopener noreferrer">TikTok cá nhân</a></div></div><div>HOANGGIA AI · INTERIOR DESIGN WORKSTATION</div></footer></div>
 <script>
-function v(id){return document.getElementById(id).value}
+function v(id){const el=document.getElementById(id);return el?String(el.value??''):''}
 let imageMeta={width:0,height:0,recommendations:[]};
 let productMeta={src:"",width:0,height:0,recommendations:[]};
 let cameraStream=null;
@@ -278,6 +278,7 @@ function setReference(src,label){
 function previewImage(e){const f=e.target.files&&e.target.files[0];if(!f)return;setReference(URL.createObjectURL(f),f.name)}
 async function openCamera(){
  try{
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('Camera không được trình duyệt hỗ trợ.');
   cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
   document.getElementById('cameraVideo').srcObject=cameraStream;
   document.getElementById('cameraPanel').style.display='block';
@@ -286,7 +287,7 @@ async function openCamera(){
 }
 function capturePhoto(){
  const video=document.getElementById('cameraVideo'),canvas=document.getElementById('cameraCanvas');
- if(!video.videoWidth)return;
+ if(!video||!canvas||!video.videoWidth){document.getElementById('refStatus').textContent='Camera chưa sẵn sàng. Hãy chờ hình ảnh xuất hiện rồi chụp lại.';return;}
  canvas.width=video.videoWidth;canvas.height=video.videoHeight;canvas.getContext('2d').drawImage(video,0,0);
  canvas.toBlob(blob=>{if(blob)setReference(URL.createObjectURL(blob),'Ảnh chụp từ camera');closeCamera()},'image/jpeg',.92);
 }
@@ -350,9 +351,10 @@ async function generateImage(){
   const input=[];
   const ref=document.getElementById('preview');
   if(ref&&ref.src&&ref.style.display!=='none'&&ref.naturalWidth){
-   const im=await blobToBase64(ref.src);input.push({type:'image',mime_type:im.mime,data:im.data});
+   try{const im=await blobToBase64(ref.src);input.push({type:'image',mime_type:im.mime,data:im.data});}
+   catch(err){throw new Error('Không đọc được ảnh tham chiếu từ URL này do giới hạn trình duyệt. Hãy tải ảnh về thiết bị rồi chọn “Từ thiết bị”.');}
   }
-  if(productModeAvailable()){const p=document.getElementById('productPreview');if(p&&p.src&&p.style.display!=='none'&&p.naturalWidth){const pi=await blobToBase64(p.src);input.push({type:'image',mime_type:pi.mime,data:pi.data});}}
+  if(productModeAvailable()){const p=document.getElementById('productPreview');if(p&&p.src&&p.style.display!=='none'&&p.naturalWidth){try{const pi=await blobToBase64(p.src);input.push({type:'image',mime_type:pi.mime,data:pi.data});}catch(err){throw new Error('Không đọc được ảnh sản phẩm từ URL này do giới hạn trình duyệt. Hãy tải ảnh về thiết bị rồi chọn “Từ thiết bị”.');}}}
   const textPart={type:"text",text:prompt}; input.unshift(textPart);
   const model=document.getElementById('geminiModel').value;
   const body={model,input,response_format:{type:"image",mime_type:"image/png",aspect_ratio:document.getElementById("aspect").value,image_size:"2K"}};
@@ -390,7 +392,7 @@ async function copyPrompt(){
   setGenStatus('Đã COPY prompt.');
  }
 }
-function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";document.getElementById("channel").value="space";clearProductImage();toggleProductMode();closeCamera();imageMeta={width:0,height:0,recommendations:[]};document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
+function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";document.getElementById("channel").value="space";clearProductImage();toggleProductMode();closeCamera();imageMeta={width:0,height:0,recommendations:[]};document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");const scene=document.getElementById("sceneCanvasImage"),overlay=document.getElementById("canvasProduct"),empty=document.getElementById("canvasEmpty");if(scene){scene.removeAttribute("src");scene.style.display="none"}if(overlay)overlay.style.display="none";if(empty)empty.style.display="block";const scale=document.getElementById("canvasScale");if(scale){scale.value=35;document.getElementById("canvasScaleValue").textContent="35%"}if(typeof setCanvasMeta==="function")setCanvasMeta("Canvas đã được làm mới.");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
 
 /* ===== MINI GAME: INTERIOR SNAP ===== */
 const gameRounds=[
@@ -418,15 +420,14 @@ function canvasPointerMove(e){if(!canvasDrag.active)return;const p=e.touches?e.t
 function canvasPointerUp(){canvasDrag.active=false}
 function initInteriorCanvas(){const f=canvasEl();if(!f)return;f.addEventListener('mousedown',canvasPointerDown);window.addEventListener('mousemove',canvasPointerMove);window.addEventListener('mouseup',canvasPointerUp);f.addEventListener('touchstart',canvasPointerDown,{passive:false});window.addEventListener('touchmove',canvasPointerMove,{passive:false});window.addEventListener('touchend',canvasPointerUp);f.addEventListener('wheel',e=>{const o=document.getElementById('canvasProduct');if(!o||o.style.display==='none')return;e.preventDefault();let v=Number(document.getElementById('canvasScale').value)+(e.deltaY<0?2:-2);v=Math.max(15,Math.min(70,v));document.getElementById('canvasScale').value=v;scaleCanvasProduct(v)},{passive:false})}
 
-function studioJump(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.studioNav button').forEach(b=>b.classList.remove('active'));const map={brief:0,reference:1,furniture:2,light:3,render:4};const btn=document.querySelectorAll('.studioNav button')[map[id]];if(btn)btn.classList.add('active')}
+function studioJump(id){const targetMap={brief:'briefCard',reference:'reference',furniture:'furniture',light:'light',render:'render'};const el=document.getElementById(targetMap[id]||id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.studioNav button').forEach(b=>b.classList.remove('active'));const map={brief:0,reference:1,furniture:2,light:3,render:4};const btn=document.querySelectorAll('.studioNav button')[map[id]];if(btn)btn.classList.add('active')}
 </script><script>document.addEventListener('DOMContentLoaded',initInteriorCanvas);</script><script>
 (function(){
   const originalGenerate=window.generate;
   window.generate=function(){
     try{
+      if(typeof originalGenerate!=="function")throw new Error("Bộ tạo prompt chưa sẵn sàng.");
       originalGenerate();
-      const out=document.getElementById("out");
-      if(out) out.scrollIntoView({behavior:"smooth",block:"center"});
     }catch(err){
       console.error(err);
       if(typeof setGenStatus==="function") setGenStatus("Có lỗi khi tạo prompt: "+(err&&err.message?err.message:"không xác định"));
@@ -436,7 +437,7 @@ function studioJump(id){const el=document.getElementById(id);if(el)el.scrollInto
     if(typeof closeCamera==="function") closeCamera();
   });
   document.addEventListener("keydown",function(e){
-    if((e.metaKey||e.ctrlKey)&&false){e.preventDefault();return;}
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="enter"&&document.activeElement?.id==="brief"){e.preventDefault();}
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="enter"){
       const active=document.activeElement;
       if(active && ["TEXTAREA","INPUT"].includes(active.tagName) && active.id==="brief"){
