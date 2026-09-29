@@ -227,6 +227,49 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 </div></section>
 <section id="productBox" class="card full" style="display:none"><label>Sản phẩm cần đưa vào không gian</label><div class="imagebox"><div class="refgrid"><button type="button" class="refbtn" onclick="document.getElementById('productImage').click()"><b>🛋️ THÊM MODEL</b>Chọn một hoặc nhiều ảnh sản phẩm</button><button type="button" class="refbtn" onclick="focusProductUrl()"><b>🌐 TỪ WEB</b>Thêm URL ảnh sản phẩm</button><button type="button" class="refbtn" onclick="clearProductImage()"><b>↺ XÓA TẤT CẢ</b>Làm lại bộ sản phẩm</button></div><input id="productImage" type="file" accept="image/png,image/jpeg,image/webp,image/avif" multiple onchange="previewProductImages(event)" style="display:none"><div class="sourceRow"><input id="productUrl" type="url" placeholder="Dán URL trực tiếp của ảnh model sản phẩm (https://...)"><button type="button" class="secondary" onclick="loadProductUrl()">THÊM MODEL</button></div><div id="productGallery" class="productGallery"></div><div class="refStatus" id="productStatus">Có thể đưa nhiều ảnh model của cùng một sản phẩm hoặc nhiều sản phẩm vào cùng một không gian. Ảnh đầu tiên là model chính; các ảnh còn lại là góc nhìn hoặc sản phẩm bổ sung.</div><div class="row"><div><label>Loại sản phẩm / nhóm chính</label><select id="productType"><option>Sofa</option><option>Ghế armchair</option><option>Bàn trà</option><option>Bàn ăn</option><option>Ghế ăn</option><option>Giường</option><option>Tủ / kệ</option><option>Đèn</option><option>Thảm</option><option>Đồ decor</option><option>Sản phẩm khác</option></select></div><div><label>Mức độ giữ nguyên sản phẩm</label><select id="productPreserve"><option>Giữ nguyên tuyệt đối mẫu mã, hình dáng, tỷ lệ và vật liệu</option><option>Giữ nguyên mẫu, chỉ điều chỉnh tỷ lệ theo không gian</option><option>Giữ nguyên thiết kế, cho phép phối màu theo không gian</option></select></div></div><div class="productPreserveBox"><label><input id="preserveSpace" type="checkbox" checked> Không thay đổi không gian tham chiếu</label><span>Nếu đã có ảnh không gian tham chiếu: giữ nguyên kiến trúc, tường, trần, cửa, cửa sổ, sàn, góc máy, bố cục, tỷ lệ và hiện trạng; chỉ đưa sản phẩm vào theo yêu cầu.</span></div><div class="actions"><button type="button" class="primary" onclick="analyzeProduct()">PHÂN TÍCH BỘ SẢN PHẨM & ĐỀ XUẤT PHỐI CẢNH</button></div><div id="productAnalysis" class="analysis" style="display:none"></div></div></section><section class="card full"><label>Hình ảnh tham chiếu / hiện trạng</label><select id="aiStrategy"><option>Concept → Design → Visualization</option><option>Phân tích ảnh → giữ hiện trạng → cải tạo</option><option>Sketch / CAD → phát triển ý tưởng → render</option><option>Moodboard → vật liệu → không gian</option><option>Thiết kế công năng → layout → visualization</option><option>Photorealistic ArchViz → vật liệu → ánh sáng</option></select></div>
 <div><label>Đầu ra mong muốn</label><select id="outputType"><option>Prompt chuyên sâu cho mọi AI</option><option>Prompt photorealistic ArchViz</option><option>Prompt concept design</option><option>Prompt cải tạo từ ảnh hiện trạng</option><option>Prompt thiết kế vật liệu & nội thất</option><option>Prompt cinematic / editorial</option></select></div></div></section>
+<section class="card full" id="designIntelligence">
+<label>THÔNG SỐ THIẾT KẾ CHUYÊN SÂU</label>
+<div class="muted" style="margin-bottom:10px">Các trường này là lớp suy luận kiến trúc bổ sung. Có thể bỏ trống; HOANGGIA AI sẽ tự giữ giả định ở mức an toàn và ưu tiên dữ liệu thực tế từ ảnh tham chiếu.</div>
+<div class="row">
+<div><label>Kích thước không gian</label><input id="spaceSize" placeholder="Ví dụ: 6500 × 4800 mm"></div>
+<div><label>Chiều cao trần</label><input id="ceilingHeight" placeholder="Ví dụ: 3100 mm"></div>
+</div>
+<div class="row">
+<div><label>Cửa, cửa sổ & mở sáng</label><input id="openings" placeholder="Ví dụ: cửa sổ lớn hướng Đông, cửa ban công bên phải"></div>
+<div><label>Tầng / cao độ</label><input id="levelInfo" placeholder="Ví dụ: tầng 2, sàn hoàn thiện cao hơn 150 mm"></div>
+</div>
+<div class="row">
+<div><label>Người sử dụng / công suất</label><input id="occupancy" placeholder="Ví dụ: 4 người, tiếp khách 6–8 người"></div>
+<div><label>Giao thông tối thiểu mong muốn</label><input id="circulation" placeholder="Ví dụ: lối chính ≥ 900 mm, tránh chắn cửa"></div>
+</div>
+<div class="row">
+<div><label>Hiện trạng cần giữ</label><input id="existingConditions" placeholder="Ví dụ: sofa, sàn gỗ, tủ TV và trần thạch cao hiện hữu"></div>
+<div><label>Ưu tiên công năng</label><input id="functionalPriority" placeholder="Ví dụ: tiếp khách, thư giãn, lưu trữ kín, dễ vệ sinh"></div>
+</div>
+<div class="row">
+<div><label>Ngân sách / cấp độ hoàn thiện</label><select id="budgetLevel"><option>Chưa xác định — ưu tiên chất lượng thiết kế</option><option>Tiết kiệm — tối ưu chi phí</option><option>Trung cấp — cân bằng chi phí và chất lượng</option><option>Cao cấp — vật liệu và hoàn thiện cao cấp</option><option>Luxury — bespoke, vật liệu tuyển chọn</option><option>Ultra Luxury — collectible và hoàn thiện thủ công</option></select></div>
+<div><label>Mức độ khả thi thi công</label><select id="constructability"><option>Ưu tiên cao — thiết kế phải thi công thực tế</option><option>Cân bằng thiết kế và thi công</option><option>Ưu tiên concept — cho phép thử nghiệm</option><option>Art / collectible — ưu tiên tính biểu tượng</option></select></div>
+</div>
+</section>
+<section class="card full" id="artDirection">
+<label>ART DIRECTION / STYLING</label>
+<div class="row">
+<div><label>Bảng màu chủ đạo</label><input id="colorPalette" placeholder="Ví dụ: warm beige, walnut, cognac, champagne"></div>
+<div><label>Texture / bề mặt</label><input id="textureDirection" placeholder="Ví dụ: vân đá tự nhiên, veneer open-pore, da patina, bouclé"></div>
+</div>
+<div class="row">
+<div><label>Đồ decor / nghệ thuật</label><input id="decorDirection" placeholder="Ví dụ: sculpture đá, art book, bình gốm, tranh abstract"></div>
+<div><label>Cây xanh / cảnh quan</label><input id="greeneryDirection" placeholder="Ví dụ: olive tree, ficus, cây lá lớn, không dùng cây"></div>
+</div>
+<div class="row">
+<div><label>Mức độ styling</label><select id="stylingLevel"><option>Tiết chế — ít đồ, nhiều khoảng thở</option><option>Cân bằng — đủ lớp nhưng sạch</option><option>Rich — nhiều lớp vật liệu và decor</option><option>Editorial — styling như ảnh tạp chí</option><option>Gallery — tối giản, tác phẩm là điểm nhấn</option></select></div>
+<div><label>Ngôn ngữ bố cục</label><select id="compositionStyle"><option>Cân bằng và có thứ bậc</option><option>Đối xứng</option><option>Bất đối xứng có kiểm soát</option><option>Trục nhìn mạnh</option><option>Layered — nhiều lớp chiều sâu</option><option>Cinematic — dẫn mắt theo câu chuyện</option></select></div>
+</div>
+<div class="row">
+<div><label>Mức độ chi tiết vật liệu</label><select id="materialDetail"><option>Thực tế và vừa đủ</option><option>Cao — thấy rõ vân, texture và mép hoàn thiện</option><option>Rất cao — ưu tiên macro material fidelity</option></select></div>
+<div><label>Chất lượng hình ảnh</label><select id="imageQuality"><option>Photorealistic cao cấp</option><option>ArchViz thương mại</option><option>Editorial / tạp chí</option><option>Cinematic</option><option>Technical / chính xác hình học</option></select></div>
+</div>
+</section>
 <section class="card full"><label>Hình ảnh tham chiếu / hiện trạng</label><div class="imagebox">
 <div class="refgrid">
 <button type="button" class="refbtn" onclick="openCamera()"><b>📷 CHỤP ẢNH</b>Camera trên thiết bị</button>
@@ -372,6 +415,23 @@ exploded:'Bản vẽ phân rã axonometric; các cấu kiện và lớp vật li
 diagram:'Sơ đồ ý tưởng thiết kế; dùng hình khối, mũi tên, lớp thông tin và chú giải trực quan để giải thích công năng, lưu thông, ánh sáng hoặc concept.',
 moodboard:'Bảng ý tưởng nội thất; kết hợp vật liệu, màu sắc, texture, đồ nội thất, ánh sáng và hình ảnh tham chiếu thành một bố cục art direction thống nhất.'
 };
+function brandDesignDNA(name){
+ const n=String(name||'').toLowerCase();
+ if(!n||n.includes('không khóa')) return 'không sao chép thương hiệu; xây dựng ngôn ngữ riêng, nhất quán với kiến trúc';
+ const groups=[
+  [['poliform','minotti','flexform','molteni','porro','giorgetti','living divani','meridiani','misuraemme'],'modern luxury Ý, tỷ lệ tinh gọn, modular, bespoke, vật liệu cao cấp và chi tiết may đo'],
+  [['cassina','b&b italia','edra','zanotta','moroso','driade','capellini','de padova'],'di sản thiết kế Ý, hình khối có chủ đích, vật liệu chọn lọc, cân bằng giữa công năng và tính biểu tượng'],
+  [['poltrona frau','baxter'],'da cao cấp, thủ công, may đo, patina tự nhiên và cảm giác tactile giàu chiều sâu'],
+  [['rimadesio','gallotti&radice','tonelli','cattelan','mdf italia'],'kiến trúc nội thất, kính/kim loại/đá, độ chính xác cao, đường nét sạch và hoàn thiện tinh xảo'],
+  [['vitra','knoll','herman miller','steelcase','haworth','humanscale'],'design hiện đại, ergonomic, cấu trúc rõ, công năng và trải nghiệm người dùng'],
+  [['fritz hansen','hay','muuto','audo','&tradition','carl hansen','montana','fredericia','bolia'],'Bắc Âu, tối giản ấm, tỷ lệ thân thiện, vật liệu tự nhiên và công năng rõ'],
+  [['gubi','moooi','tom dixon','pols potten','jonathan adler'],'statement design, hình khối giàu cá tính, tương phản có kiểm soát và điểm nhấn nghệ thuật'],
+  [['kettal','dedon','paola lenti','tribù','manutti','b&b italia outdoor'],'outdoor luxury, vật liệu chịu thời tiết, nhẹ, bền, resort và kết nối cảnh quan']
+ ];
+ for(const [keys,dna] of groups) if(keys.some(k=>n.includes(k))) return dna;
+ return 'ngôn ngữ thiết kế đương đại cao cấp, tỷ lệ chuẩn, vật liệu chân thực, chi tiết tinh tế và ưu tiên tính nhất quán với kiến trúc';
+}
+function designField(id,fallback){const x=v(id).trim();return x||fallback}
 const visualMode=v('visualOutput')||'photoreal';
 const visualLine='Loại đầu ra hình ảnh: '+(visualDNA[visualMode]||visualDNA.photoreal)+'.';
 const productMode=v('channel')==='product';
@@ -381,14 +441,21 @@ const productMode=v('channel')==='product';
   'Không gian: '+v('room')+'; phong cách: '+v('style')+'.',
   visualLine,
   productLine,
+  'Chiến lược AI: '+v('aiStrategy')+'. Đầu ra mong muốn: '+v('outputType')+'.',
   'Tư duy thiết kế: '+v('focus')+'; hệ tư duy kiến trúc: '+v('architect')+'.',
-  'Đồ nội thất: '+v('furnitureType')+', theo trường phái '+v('furnitureLens')+', thiết kế may đo tinh tế; tham chiếu ngôn ngữ thiết kế '+v('furnitureBrand')+'.',
-  'Vật liệu: '+(v('materials')||'vật liệu tự nhiên cao cấp, bề mặt chân thực, chi tiết tinh xảo và khả năng thi công thực tế')+'.',
+  'Đồ nội thất: '+v('furnitureType')+', theo trường phái '+v('furnitureLens')+', thiết kế may đo tinh tế; thương hiệu tham chiếu '+v('furnitureBrand')+' với ngôn ngữ: '+brandDesignDNA(v('furnitureBrand'))+'. Mức độ đồng bộ: '+v('coordination')+'.',
+  'Thông số không gian: kích thước '+designField('spaceSize','chưa xác định')+'; chiều cao trần '+designField('ceilingHeight','chưa xác định')+'; tầng/cao độ '+designField('levelInfo','chưa xác định')+'.',
+  'Mở sáng và kiến trúc: '+designField('openings','giữ theo hiện trạng/ảnh tham chiếu')+'. Người sử dụng: '+designField('occupancy','chưa xác định')+'. Giao thông: '+designField('circulation','ưu tiên lối đi rõ, không cản cửa và luồng sử dụng')+'.',
+  'Hiện trạng cần giữ: '+designField('existingConditions','giữ các thành phần được đánh dấu bảo toàn')+'. Ưu tiên công năng: '+designField('functionalPriority','công năng chính của loại không gian')+'.',
+  'Vật liệu: '+(v('materials')||'vật liệu tự nhiên cao cấp, bề mặt chân thực, chi tiết tinh xảo và khả năng thi công thực tế')+'. Bảng màu: '+designField('colorPalette','tự cân bằng theo phong cách và vật liệu')+'. Texture: '+designField('textureDirection','chân thực, có chiều sâu, không nhựa')+'.',
   'Ánh sáng: '+v('light')+', vai trò '+v('lightRole')+', mức tương phản '+v('contrast')+'.',
   'Góc máy: '+v('camera')+(ref?' ; tham chiếu góc nhìn từ ảnh: '+ref:'')+'.',
+  'Art direction: styling '+v('stylingLevel')+'; bố cục '+v('compositionStyle')+'; decor/nghệ thuật '+designField('decorDirection','tiết chế và có chủ đích')+'; cây xanh '+designField('greeneryDirection','chỉ dùng khi phù hợp').',
+  'Mức độ chi tiết vật liệu: '+v('materialDetail')+'; chất lượng hình ảnh: '+v('imageQuality')+'. Cấp độ hoàn thiện: '+v('budgetLevel')+'; khả thi thi công: '+v('constructability')+'.',
   'Hình ảnh kiến trúc nội thất cao cấp, chân thực, tỷ lệ chính xác, vật liệu thuyết phục, phản xạ tự nhiên, bóng đổ kiểm soát, hình học sạch và định hướng nghệ thuật tinh tế.',
   'Bảo toàn: '+preservation+'.',
   productMode && productMeta.src ? 'Bố cục canvas: đặt sản phẩm tại vị trí đã chọn trong Interior Canvas, ưu tiên đúng tỷ lệ và hướng sản phẩm; chỉ hiệu chỉnh nhẹ nếu cần để hợp phối cảnh, mặt sàn, điểm tựa và giao thông.' : '',
+  'Loại trừ bắt buộc: '+designField('negative','không biến dạng hình học, không nhân đôi vật thể, không thêm cửa/cửa sổ, không vật liệu giả nhựa, không phong cách hoạt hình/CGI, không HDR quá mức, không chữ, logo hoặc hình mờ')+'.',
   'Không tự ý thiết kế lại ngoài yêu cầu; không biến dạng, nhân đôi vật thể, thêm cửa hoặc cửa sổ, làm vật liệu giống nhựa, phong cách hoạt hình hoặc CGI, HDR quá mức, chữ, logo hay hình mờ. Hãy tạo ảnh.'
  ].join(' ');
  const compact=prompt.replace(/\s+/g,' ').trim();
@@ -451,7 +518,7 @@ async function copyPrompt(){
   setGenStatus('Đã COPY prompt.');
  }
 }
-function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";if(document.getElementById("preserveSpace"))document.getElementById("preserveSpace").checked=true;document.getElementById("channel").value="space";document.getElementById("visualOutput").value="photoreal";clearProductImage();toggleProductMode();closeCamera();imageMeta={src:"",width:0,height:0,recommendations:[]};document.getElementById("preview").removeAttribute("src");document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");const scene=document.getElementById("sceneCanvasImage"),overlay=document.getElementById("canvasProduct"),empty=document.getElementById("canvasEmpty");if(scene){scene.removeAttribute("src");scene.style.display="none"}if(overlay)overlay.style.display="none";if(empty)empty.style.display="block";const scale=document.getElementById("canvasScale");if(scale){scale.value=35;document.getElementById("canvasScaleValue").textContent="35%"}if(typeof setCanvasMeta==="function")setCanvasMeta("Canvas đã được làm mới.");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
+function resetAll(){document.getElementById("brief").value="";document.getElementById("materials").value="";document.getElementById("refUrl").value="";document.getElementById("productUrl").value="";if(document.getElementById("preserveSpace"))document.getElementById("preserveSpace").checked=true;document.getElementById("channel").value="space";document.getElementById("visualOutput").value="photoreal";['spaceSize','ceilingHeight','openings','levelInfo','occupancy','circulation','existingConditions','functionalPriority','colorPalette','textureDirection','decorDirection','greeneryDirection'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});document.getElementById("budgetLevel").selectedIndex=0;document.getElementById("constructability").selectedIndex=0;document.getElementById("stylingLevel").selectedIndex=0;document.getElementById("compositionStyle").selectedIndex=0;document.getElementById("materialDetail").selectedIndex=0;document.getElementById("imageQuality").selectedIndex=0;clearProductImage();toggleProductMode();closeCamera();imageMeta={src:"",width:0,height:0,recommendations:[]};document.getElementById("preview").removeAttribute("src");document.getElementById("preview").style.display="none";document.getElementById("refStatus").textContent="Đã làm mới phiên làm việc.";document.getElementById("analysis").style.display="none";document.getElementById("out").value="";document.getElementById("quickOut").value="";document.getElementById("quickResult").classList.remove("show");document.getElementById("genResult").style.display="none";document.getElementById("generatedImage").removeAttribute("src");const scene=document.getElementById("sceneCanvasImage"),overlay=document.getElementById("canvasProduct"),empty=document.getElementById("canvasEmpty");if(scene){scene.removeAttribute("src");scene.style.display="none"}if(overlay)overlay.style.display="none";if(empty)empty.style.display="block";const scale=document.getElementById("canvasScale");if(scale){scale.value=35;document.getElementById("canvasScaleValue").textContent="35%"}if(typeof setCanvasMeta==="function")setCanvasMeta("Canvas đã được làm mới.");setGenStatus("Đã làm mới. Bạn có thể bắt đầu brief mới.");}
 
 /* ===== MINI GAME: INTERIOR SNAP ===== */
 const gameRounds=[
