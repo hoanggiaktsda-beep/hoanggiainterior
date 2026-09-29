@@ -136,25 +136,25 @@ function generate(){
  if(document.getElementById('scale').checked) keep.push('preserve real-world proportions and dimensions');
  const preservation=keep.length?keep.join('; '):'change only what is requested';
  const prompt=[
-  brief,
-  'Interior architecture visualization, '+v('room')+', '+v('style')+'.',
-  'Design logic: '+v('focus')+'; '+v('architect')+'.',
-  'Furniture: '+v('furnitureType')+', '+v('furnitureLens')+', refined bespoke detailing; reference design language: '+v('furnitureBrand')+'.',
-  'Materials: '+(v('materials')||'premium natural materials, realistic texture, refined joinery, precise edges and believable construction')+'.',
-  'Lighting: '+v('light')+', '+v('lightRole')+', '+v('contrast')+'.',
-  'Camera: '+v('camera')+(ref?' ; image-reference composition guidance: '+ref:'')+'.',
-  'Photorealistic high-end architectural visualization, realistic scale, physically believable materials, natural reflections, controlled shadows, clean geometry, elegant art direction.',
-  'Preserve: '+preservation+'.',
-  'No redesign beyond the requested changes; no distortion, duplicate objects, extra windows/doors, plastic-looking materials, CGI/cartoon look, excessive HDR, text or watermark.'
+  'Yêu cầu thiết kế: '+brief+'.',
+  'Không gian: '+v('room')+'; phong cách: '+v('style')+'.',
+  'Tư duy thiết kế: '+v('focus')+'; hệ tư duy kiến trúc: '+v('architect')+'.',
+  'Đồ nội thất: '+v('furnitureType')+', theo trường phái '+v('furnitureLens')+', thiết kế may đo tinh tế; tham chiếu ngôn ngữ thiết kế '+v('furnitureBrand')+'.',
+  'Vật liệu: '+(v('materials')||'vật liệu tự nhiên cao cấp, bề mặt chân thực, chi tiết tinh xảo và khả năng thi công thực tế')+'.',
+  'Ánh sáng: '+v('light')+', vai trò '+v('lightRole')+', mức tương phản '+v('contrast')+'.',
+  'Góc máy: '+v('camera')+(ref?' ; tham chiếu góc nhìn từ ảnh: '+ref:'')+'.',
+  'Hình ảnh kiến trúc nội thất cao cấp, chân thực, tỷ lệ chính xác, vật liệu thuyết phục, phản xạ tự nhiên, bóng đổ kiểm soát, hình học sạch và định hướng nghệ thuật tinh tế.',
+  'Bảo toàn: '+preservation+'.',
+  'Không tự ý thiết kế lại ngoài yêu cầu; không biến dạng, nhân đôi vật thể, thêm cửa hoặc cửa sổ, làm vật liệu giống nhựa, phong cách hoạt hình hoặc CGI, HDR quá mức, chữ, logo hay hình mờ. Hãy tạo ảnh.'
  ].join(' ');
  const compact=prompt.replace(/\\s+/g,' ').trim();
  document.getElementById('out').value=compact;
  renderQuickResult(compact);
- setGenStatus('Prompt ảnh đã sẵn sàng — ngắn gọn và có thể copy sang nền tảng AI.');
+ setGenStatus('Prompt tiếng Việt đã sẵn sàng — ngắn gọn và có thể copy sang nền tảng AI.');
 }
 async function blobToBase64(src){const res=await fetch(src);const blob=await res.blob();return await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve({data:fr.result.split(',')[1],mime:blob.type||'image/jpeg'});fr.onerror=reject;fr.readAsDataURL(blob)})}
 function setGenStatus(t,loading=false){document.getElementById('genStatus').innerHTML=(loading?'<span class="spin"></span>':'')+t}
-function getFullPrompt(){if(!document.getElementById('out').value)generate();return document.getElementById('out').value+'\n\nYÊU CẦU LOẠI TRỪ:\n'+document.getElementById('negative').value}
+function getFullPrompt(){if(!document.getElementById('out').value)generate();return document.getElementById('out').value}
 async function generateImage(){
  const platform=document.getElementById('genPlatform').value;
  if(!document.getElementById('out').value) generate(); const prompt=getFullPrompt();
