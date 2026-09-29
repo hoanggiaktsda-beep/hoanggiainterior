@@ -245,6 +245,15 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 <label style="margin-top:15px">Loại đầu ra hình ảnh</label><select id="visualOutput">
 <option value="photoreal">Hình ảnh thực tế — Photorealistic</option>
 <option value="archviz3d">Hình ảnh 3D — Photorealistic ArchViz</option>
+<option value="max_corona">Render 3D — 3ds Max + Corona Renderer</option>
+<option value="max_vray">Render 3D — 3ds Max + V-Ray</option>
+<option value="sketchup_vray">Render 3D — SketchUp + V-Ray</option>
+<option value="sketchup_en">Render 3D — SketchUp + Enscape</option>
+<option value="d5render">Render 3D — D5 Render</option>
+<option value="lumion">Render 3D — Lumion</option>
+<option value="twinmotion">Render 3D — Twinmotion</option>
+<option value="blender_cycles">Render 3D — Blender + Cycles</option>
+<option value="unreal">Render 3D — Unreal Engine</option>
 <option value="concept3d">Hình ảnh 3D — Concept Design</option>
 <option value="clay3d">Hình ảnh 3D — Clay / trắng vật liệu</option>
 <option value="cinematic">Hình ảnh điện ảnh — Cinematic</option>
@@ -259,7 +268,12 @@ button{border-radius:2px;letter-spacing:.12em;padding:12px 16px}.primary{backgro
 <option value="ink">Tranh mực — Ink Wash</option>
 <option value="collage">Tranh ghép — Architectural Collage</option>
 <option value="axonometric">Phối cảnh trục đo — Axonometric</option>
+<option value="autocad_plan">Bản vẽ kỹ thuật — AutoCAD mặt bằng 2D</option>
+<option value="autocad_elevation">Bản vẽ kỹ thuật — AutoCAD mặt đứng / mặt cắt</option>
+<option value="autocad_detail">Bản vẽ kỹ thuật — AutoCAD chi tiết cấu tạo</option>
 <option value="technical">Bản vẽ kỹ thuật — Technical Drawing</option>
+<option value="revit_bim">Bản vẽ kỹ thuật — Revit / BIM</option>
+<option value="exploded">Bản vẽ phân rã — Exploded Axonometric</option>
 <option value="diagram">Sơ đồ ý tưởng — Design Diagram</option>
 <option value="moodboard">Bảng ý tưởng — Moodboard</option>
 </select>
@@ -339,6 +353,15 @@ function generate(){
  const visualDNA={
 photoreal:'Hình ảnh thực tế cao cấp, cảm giác như ảnh chụp thật; vật liệu, ánh sáng, phản xạ, bóng đổ và tỷ lệ phải tự nhiên, không có cảm giác ảnh dựng.',
 archviz3d:'Hình ảnh 3D kiến trúc nội thất cao cấp theo hướng photorealistic ArchViz; hình học sạch, vật liệu PBR chân thực, ánh sáng vật lý hợp lý, phản xạ và bóng đổ kiểm soát.',
+max_corona:'Render nội thất theo ngôn ngữ 3ds Max + Corona Renderer; hình học và chi tiết mô hình chính xác, vật liệu PBR, ánh sáng Global Illumination tự nhiên, bề mặt chân thực, camera kiến trúc và chất lượng render cao cấp.',
+max_vray:'Render nội thất theo ngôn ngữ 3ds Max + V-Ray; vật liệu vật lý, ánh sáng và phản xạ kiểm soát, chi tiết mô hình sạch, bóng đổ tự nhiên, camera kiến trúc và chất lượng hình ảnh chuyên nghiệp.',
+sketchup_vray:'Render nội thất theo ngôn ngữ SketchUp + V-Ray; giữ rõ hình khối và mô hình SketchUp, vật liệu chân thực, ánh sáng vật lý, phản xạ tự nhiên và cảm giác ArchViz chuyên nghiệp.',
+sketchup_en:'Render nội thất theo ngôn ngữ SketchUp + Enscape; hình ảnh thời gian thực sạch, ánh sáng tự nhiên, vật liệu rõ, tỷ lệ kiến trúc chính xác và cảm giác trực quan gần với quy trình thiết kế.',
+d5render:'Render nội thất theo ngôn ngữ D5 Render; real-time path tracing, ánh sáng tự nhiên và nhân tạo cân bằng, vật liệu chân thực, phản xạ sạch, cây xanh và môi trường hợp lý, hình ảnh kiến trúc cao cấp.',
+lumion:'Render nội thất/kiến trúc theo ngôn ngữ Lumion; real-time visualization, ánh sáng và môi trường giàu chiều sâu, vật liệu rõ ràng, phản xạ kiểm soát, bố cục trình bày trực quan.',
+twinmotion:'Render kiến trúc theo ngôn ngữ Twinmotion; real-time visualization, ánh sáng môi trường tự nhiên, vật liệu rõ, bối cảnh chân thực và khả năng trình bày thiết kế trực quan.',
+blender_cycles:'Render nội thất theo ngôn ngữ Blender + Cycles; path tracing chân thực, vật liệu vật lý, ánh sáng chính xác, chi tiết mô hình cao và bóng đổ tự nhiên.',
+unreal:'Hình ảnh kiến trúc real-time theo ngôn ngữ Unreal Engine; ánh sáng động, vật liệu vật lý, chiều sâu không gian, chi tiết môi trường và cảm giác trình diễn kiến trúc cao cấp.',
 concept3d:'Hình ảnh 3D concept design; ưu tiên hình khối, tỷ lệ, vật liệu và ý tưởng không gian, vẫn giữ logic kiến trúc và khả năng phát triển thành thiết kế thực tế.',
 clay3d:'Hình ảnh 3D clay render đơn sắc; bề mặt vật thể trung tính, làm rõ hình khối, tỷ lệ, ánh sáng, cấu trúc và bố cục, hạn chế màu vật liệu.',
 cinematic:'Hình ảnh điện ảnh; bố cục có chủ đích, chiều sâu thị giác, ánh sáng tạo không khí, tương phản tinh tế và cảm giác khung hình điện ảnh.',
@@ -353,7 +376,12 @@ pencil:'Tranh chì màu; nét chì và lớp màu thủ công tinh tế, thể h
 ink:'Tranh mực và wash; đường nét giàu biểu cảm, mảng sáng tối bằng wash, tối giản màu và nhấn mạnh hình khối, ánh sáng, không khí.',
 collage:'Tranh ghép kiến trúc; kết hợp ảnh, giấy, texture, nét vẽ và mảng vật liệu có chủ đích để diễn đạt concept, không làm mất cấu trúc không gian.',
 axonometric:'Phối cảnh trục đo kiến trúc; không gian được trình bày rõ theo axonometric, nhấn mạnh layout, quan hệ khối, đồ nội thất và lưu thông.',
+autocad_plan:'Bản vẽ AutoCAD mặt bằng 2D; nét kỹ thuật sạch, phân cấp lineweight rõ, tường/cửa/đồ nội thất đúng tỷ lệ, kích thước và ký hiệu kiến trúc dễ đọc.',
+autocad_elevation:'Bản vẽ AutoCAD mặt đứng hoặc mặt cắt nội thất; đường nét chính xác, phân cấp nét rõ, cao độ và cấu tạo thể hiện mạch lạc, ưu tiên khả năng đọc bản vẽ thi công.',
+autocad_detail:'Bản vẽ AutoCAD chi tiết cấu tạo nội thất; thể hiện lớp vật liệu, kích thước, mối nối, khe, nẹp, liên kết và cấu tạo với độ chính xác kỹ thuật cao.',
 technical:'Bản vẽ kỹ thuật kiến trúc/nội thất; đường nét, kích thước tương đối, cấu tạo, mặt bằng hoặc mặt đứng rõ ràng, ưu tiên tính chính xác và khả năng đọc bản vẽ.',
+revit_bim:'Bản vẽ kiến trúc/nội thất theo quy trình Revit BIM; hình học và thông tin cấu kiện có hệ thống, mặt bằng, mặt đứng, mặt cắt và ký hiệu kỹ thuật rõ ràng.',
+exploded:'Bản vẽ phân rã axonometric; các cấu kiện và lớp vật liệu được tách theo trục, thể hiện cấu tạo, quan hệ lắp ghép và logic sản xuất một cách trực quan.',
 diagram:'Sơ đồ ý tưởng thiết kế; dùng hình khối, mũi tên, lớp thông tin và chú giải trực quan để giải thích công năng, lưu thông, ánh sáng hoặc concept.',
 moodboard:'Bảng ý tưởng nội thất; kết hợp vật liệu, màu sắc, texture, đồ nội thất, ánh sáng và hình ảnh tham chiếu thành một bố cục art direction thống nhất.'
 };
