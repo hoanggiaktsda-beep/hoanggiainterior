@@ -1,0 +1,50 @@
+name: Generate app icons
+
+on:
+  push:
+    paths:
+      - "HOANGGIA-AI/icon-192.svg"
+      - "HOANGGIA-AI/icon-512.svg"
+      - "HOANGGIA-AI/icon-512-maskable.svg"
+      - ".github/workflows/generate-app-icons.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate PNG app icons
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          convert -background none HOANGGIA-AI/icon-192.svg -resize 192x192 HOANGGIA-AI/icon-192.png
+          convert -background none HOANGGIA-AI/icon-512.svg -resize 512x512 HOANGGIA-AI/icon-512.png
+          convert -background none HOANGGIA-AI/icon-512-maskable.svg -resize 512x512 HOANGGIA-AI/icon-512-maskable.png
+          cp HOANGGIA-AI/icon-192.png HOANGGIA-AI/apple-touch-icon.png
+
+      - name: Update manifest for PNG icons
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("HOANGGIA-AI/manifest.webmanifest")
+          s=p.read_text()
+          s=s.replace("icon-192.svg","icon-192.png").replace("icon-512.svg","icon-512.png").replace("icon-512-maskable.svg","icon-512-maskable.png")
+          p.write_text(s)
+          h=Path("HOANGGIA-AI/index.html")
+          s=h.read_text()
+          s=s.replace('href="./brand-mark.svg">','href="./apple-touch-icon.png">',1)
+          h.write_text(s)
+          PY
+
+      - name: Commit generated icons
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add HOANGGIA-AI/
+          git diff --cached --quiet || git commit -m "Generate PWA PNG app icons"
+          git push
