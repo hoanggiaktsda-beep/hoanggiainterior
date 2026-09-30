@@ -255,6 +255,10 @@ textarea{min-height:118px}
 @media(min-width:1100px){#designIntelligence .row,#artDirection .row{grid-template-columns:repeat(2,minmax(0,1fr))}#briefCard .row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){.wrap{padding:14px 16px 48px}.hero{grid-template-columns:1fr;min-height:0;gap:24px;padding:50px 0 30px}.hero p{max-width:620px}}
 @media(max-width:767px){.wrap{padding:12px 11px 40px}.top{height:52px}.hero{padding:45px 0 28px}.hero h1{font-size:46px}.card{padding:16px}#briefCard{padding:17px}.studioNav{padding:5px}.studioNav .navBrand{min-width:auto;padding:8px}.studioNav .navItems{flex:1}.studioNav button{padding:8px 9px}.studioRail{grid-template-columns:1fr 1fr}.materialStrip{overflow:auto}.materialStrip div{min-width:112px}.requiredNote{font-size:9px}}
+
+/* ===== HOANGGIA AI / ULTRA COMPACT STUDIO v3 ===== */
+.card{padding:14px 16px}.grid{gap:1px}.row{gap:8px;margin-top:6px}.row+ .row{margin-top:6px}.card label{font-size:9px;margin-bottom:5px}input,select,textarea{font-size:11px;min-height:36px;padding:9px 10px}textarea{min-height:96px}.requiredNote{margin-bottom:8px}.sectionInnerCompact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.sectionInnerCompact>label{grid-column:1/-1}.sectionInnerCompact select{min-height:36px}.collapsibleStatic{scroll-margin-top:80px}.collapsibleStatic .suggestions{margin-top:8px!important;gap:6px}.collapsibleStatic .suggestion{padding:8px;font-size:10px}.compactAdvancedToggle{margin:8px 0 0;padding:9px 11px;border:1px solid #2d312d;background:#0d100e;color:#aaa89f;border-radius:8px;width:100%;display:flex;justify-content:space-between;align-items:center;font:700 9px Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase}.compactAdvancedToggle:hover{color:var(--gold3);border-color:#4d412d}.compactAdvancedBody{display:none;margin-top:7px}.compactAdvanced.is-open .compactAdvancedBody{display:block}.compactAdvanced .chev{transition:transform .18s}.compactAdvanced.is-open .chev{transform:rotate(180deg)}
+@media(max-width:760px){.sectionInnerCompact{grid-template-columns:1fr}.card{padding:12px}.row{gap:6px}.row+ .row{margin-top:6px}input,select,textarea{min-height:40px}.hero{min-height:210px}.requiredNote{font-size:9px}}
 </style>
 </head><body><div class="wrap">
 <header class="top"><div class="brand"><div class="mark">HG</div><div><b>HOANGGIA AI</b><span>TRỢ LÝ PROMPT NỘI THẤT</span></div></div><span class="pill">CHẠY TRỰC TIẾP TRÊN TRÌNH DUYỆT</span></header>
@@ -277,7 +281,7 @@ textarea{min-height:118px}
 <div class="row"><div><label>Nhóm đồ nội thất<span class="req" aria-hidden="true">*</span></label><select id="furnitureType"><option value="">— Bỏ trống —</option><option>Tổng thể hệ nội thất</option><option>Sofa / Modular Sofa</option><option>Armchair / Lounge Chair</option><option>Coffee Table / Side Table</option><option>Dining Table / Dining Chair</option><option>Bed / Bedroom System</option><option>Storage / Cabinet / Bookcase</option><option>Kitchen / Wardrobe / Built-in</option><option>Desk / Office Chair</option><option>Lighting / Decorative Object</option><option>Outdoor Furniture</option></select></div>
 <div><label>Mức độ đồng bộ<span class="req" aria-hidden="true">*</span></label><select id="coordination"><option value="">— Bỏ trống —</option><option>Đồng bộ cao — kiến trúc, nội thất, vật liệu, ánh sáng</option><option>Đồng bộ vừa — thương hiệu là điểm nhấn</option><option>Mix & Match có kiểm soát</option><option>Eclectic — tương phản có chủ đích</option></select></div></div>
 </section>
-<section class="card full" style="margin-top:0"><label>Hệ thương hiệu & tư duy đồ nội thất cao cấp</label><div class="muted">Thương hiệu được dùng như “design reference” về tỷ lệ, cấu trúc, vật liệu, hoàn thiện và ngôn ngữ sản phẩm — không yêu cầu sao chép nguyên mẫu.</div><div class="suggestions" style="margin-top:12px">
+<section class="card full collapsibleStatic" id="brandDNA"><label>Hệ thương hiệu & tư duy đồ nội thất cao cấp</label><div class="muted">Thương hiệu được dùng như “design reference” về tỷ lệ, cấu trúc, vật liệu, hoàn thiện và ngôn ngữ sản phẩm — không yêu cầu sao chép nguyên mẫu.</div><div class="suggestions" style="margin-top:12px">
 <div class="suggestion"><strong>Poliform</strong>Hệ thống nội thất đồng bộ với kiến trúc, modular, contemporary và custom.</div>
 <div class="suggestion"><strong>Minotti</strong>Modern luxury, thủ công + công nghệ, tỷ lệ chuẩn, chi tiết may đo.</div>
 <div class="suggestion"><strong>Rimadesio</strong>Kiến trúc nội thất, kính + nhôm, precision, custom-made.</div>
@@ -293,7 +297,7 @@ textarea{min-height:118px}
 <div class="sourceRow"><button type="button" class="secondary" onclick="document.getElementById('productRealRefImage').click()">TỪ THIẾT BỊ</button><input id="productRealRefImage" type="file" accept="image/png,image/jpeg,image/webp,image/avif" multiple onchange="previewProductRealRefs(event)" style="display:none"></div>
 <div id="productRealRefGallery" class="productGallery"></div>
 <div class="refStatus" id="productRealRefStatus">URL phải là ảnh trực tiếp HTTPS. Nếu website nguồn chặn CORS, hãy dùng TỪ THIẾT BỊ để bảo đảm ảnh đi được vào bước tạo ảnh.</div>
-</div><div class="refStatus" id="productStatus">Có thể đưa nhiều ảnh của cùng một sản phẩm để khóa thiết kế. Ảnh đầu tiên là model chính; các ảnh còn lại là góc nhìn bổ sung của cùng sản phẩm.</div><div class="row"><div><label>Loại sản phẩm / nhóm chính</label><select id="productType"><option>Sofa</option><option>Ghế armchair</option><option>Bàn trà</option><option>Bàn ăn</option><option>Ghế ăn</option><option>Giường</option><option>Tủ / kệ</option><option>Đèn</option><option>Thảm</option><option>Đồ decor</option><option>Sản phẩm khác</option></select></div><div><label>Mức độ giữ nguyên sản phẩm</label><select id="productPreserve"><option>Giữ nguyên tuyệt đối mẫu mã, hình dáng, tỷ lệ và vật liệu</option><option>Giữ nguyên mẫu, chỉ điều chỉnh tỷ lệ theo không gian</option><option>Giữ nguyên thiết kế, cho phép phối màu theo không gian</option></select></div></div><div class="productPreserveBox"><label><input id="preserveSpace" type="checkbox" checked> Giữ nguyên không gian tham chiếu</label><span>Nếu đã có ảnh không gian tham chiếu: giữ nguyên kiến trúc, tường, trần, cửa, cửa sổ, sàn, góc máy, bố cục, tỷ lệ và hiện trạng; chỉ đưa sản phẩm vào theo yêu cầu.</span></div><div class="actions"><button type="button" class="primary" onclick="analyzeProduct()">PHÂN TÍCH BỘ SẢN PHẨM & ĐỀ XUẤT PHỐI CẢNH</button></div><div id="productAnalysis" class="analysis" style="display:none"></div></div></section><section class="card full"><label>Hình ảnh tham chiếu / hiện trạng</label><select id="aiStrategy"><option value="">— Bỏ trống —</option><option>Concept → Design → Visualization</option><option>Phân tích ảnh → giữ hiện trạng → cải tạo</option><option>Sketch / CAD → phát triển ý tưởng → render</option><option>Moodboard → vật liệu → không gian</option><option>Thiết kế công năng → layout → visualization</option><option>Photorealistic ArchViz → vật liệu → ánh sáng</option></select></div>
+</div><div class="refStatus" id="productStatus">Có thể đưa nhiều ảnh của cùng một sản phẩm để khóa thiết kế. Ảnh đầu tiên là model chính; các ảnh còn lại là góc nhìn bổ sung của cùng sản phẩm.</div><div class="row"><div><label>Loại sản phẩm / nhóm chính</label><select id="productType"><option>Sofa</option><option>Ghế armchair</option><option>Bàn trà</option><option>Bàn ăn</option><option>Ghế ăn</option><option>Giường</option><option>Tủ / kệ</option><option>Đèn</option><option>Thảm</option><option>Đồ decor</option><option>Sản phẩm khác</option></select></div><div><label>Mức độ giữ nguyên sản phẩm</label><select id="productPreserve"><option>Giữ nguyên tuyệt đối mẫu mã, hình dáng, tỷ lệ và vật liệu</option><option>Giữ nguyên mẫu, chỉ điều chỉnh tỷ lệ theo không gian</option><option>Giữ nguyên thiết kế, cho phép phối màu theo không gian</option></select></div></div><div class="productPreserveBox"><label><input id="preserveSpace" type="checkbox" checked> Giữ nguyên không gian tham chiếu</label><span>Nếu đã có ảnh không gian tham chiếu: giữ nguyên kiến trúc, tường, trần, cửa, cửa sổ, sàn, góc máy, bố cục, tỷ lệ và hiện trạng; chỉ đưa sản phẩm vào theo yêu cầu.</span></div><div class="actions"><button type="button" class="primary" onclick="analyzeProduct()">PHÂN TÍCH BỘ SẢN PHẨM & ĐỀ XUẤT PHỐI CẢNH</button></div><div id="productAnalysis" class="analysis" style="display:none"></div></div></section><section class="card full" id="referenceCard"><label>Hình ảnh tham chiếu / hiện trạng</label><select id="aiStrategy"><option value="">— Bỏ trống —</option><option>Concept → Design → Visualization</option><option>Phân tích ảnh → giữ hiện trạng → cải tạo</option><option>Sketch / CAD → phát triển ý tưởng → render</option><option>Moodboard → vật liệu → không gian</option><option>Thiết kế công năng → layout → visualization</option><option>Photorealistic ArchViz → vật liệu → ánh sáng</option></select></div>
 <div><label>Đầu ra mong muốn<span class="req" aria-hidden="true">*</span></label><select id="outputType"><option value="">— Bỏ trống —</option><option>Prompt chuyên sâu cho mọi AI</option><option>Prompt photorealistic ArchViz</option><option>Prompt concept design</option><option>Prompt cải tạo từ ảnh hiện trạng</option><option>Prompt thiết kế vật liệu & nội thất</option><option>Prompt cinematic / editorial</option></select></div></div></section>
 <section class="card full" id="designIntelligence">
 <label>THÔNG SỐ THIẾT KẾ CHUYÊN SÂU</label>
@@ -366,7 +370,7 @@ textarea{min-height:118px}
 <div class="muted" style="margin-top:8px">Ảnh được dùng làm hình tham chiếu cho prompt. HOANGGIA AI hiện đọc kích thước và tỷ lệ ảnh trực tiếp trên trình duyệt; các website như Pinterest/RedNote có thể chặn trình duyệt đọc ảnh bằng CORS.</div>
 <img id="preview" class="preview" alt="Ảnh tham chiếu">
 <div id="analysis" class="analysis" style="display:none"></div>
-<div class="actions"><button class="primary" onclick="analyzeImage()">PHÂN TÍCH & ĐỀ XUẤT GÓC NHÌN</button></div></div></section><section class="card"><label for="materials">Vật liệu / màu sắc / chi tiết ưu tiên</label><textarea id="materials" placeholder="Ví dụ: gỗ óc chó tự nhiên, travertine kem, da bò cognac, kim loại champagne, kính khói, vải boucle..."></textarea>
+<div class="actions"><button class="primary" onclick="analyzeImage()">PHÂN TÍCH & ĐỀ XUẤT GÓC NHÌN</button></div></div></section><section class="card full" id="visualSettings"><label>VẬT LIỆU & XUẤT HÌNH</label><div class="sectionInnerCompact"><label for="materials">Vật liệu / màu sắc / chi tiết ưu tiên</label><textarea id="materials" placeholder="Ví dụ: gỗ óc chó tự nhiên, travertine kem, da bò cognac, kim loại champagne, kính khói, vải boucle..."></textarea>
 <label style="margin-top:15px">Loại đầu ra hình ảnh</label><select id="visualOutput">
 <option value="photoreal">Hình ảnh thực tế — Photorealistic</option>
 <option value="archviz3d">Hình ảnh 3D — Photorealistic ArchViz</option>
@@ -404,8 +408,7 @@ textarea{min-height:118px}
 </select>
 <label style="margin-top:15px">Công cụ AI dự kiến sử dụng</label><select id="ai"><option>Công cụ tạo ảnh AI bất kỳ</option><option>Lovart</option><option>Nano Banana</option><option>Midjourney</option><option>Flux</option><option>Dùng làm prompt tham khảo</option></select>
 <label style="margin-top:15px">Các yếu tố bắt buộc bảo toàn</label><div class="checks"><label><input type="checkbox" id="arch" checked>Kiến trúc, tường, trần</label><label><input type="checkbox" id="furn" checked>Mẫu mã nội thất hiện có</label><label><input type="checkbox" id="cam" checked>Góc máy, bố cục</label><label><input type="checkbox" id="photo" checked>Hình ảnh chân thực cao</label><label><input type="checkbox" id="window" checked>Cửa, ô cửa, nguồn sáng</label><label><input type="checkbox" id="scale" checked>Tỷ lệ và kích thước thực tế</label></div>
-<div class="actions"><button class="primary" onclick="generate()">TẠO KẾT QUẢ NGAY</button><button class="secondary" onclick="resetAll()">XÓA NHẬP LIỆU</button></div></section>
-<section class="card full"><label for="out">PROMPT THIẾT KẾ</label><textarea id="out" class="output" readonly placeholder="Bấm TẠO KẾT QUẢ NGAY → kết quả xuất hiện ngay phía trên."></textarea><div class="actions"><button class="primary" onclick="copyPrompt()">COPY PROMPT</button></div></section>
+<div class="actions"><button class="primary" onclick="generate()">TẠO KẾT QUẢ NGAY</button><button class="secondary" onclick="resetAll()">XÓA NHẬP LIỆU</button></div></div></section><section class="card full"><label for="out">PROMPT THIẾT KẾ</label><textarea id="out" class="output" readonly placeholder="Bấm TẠO KẾT QUẢ NGAY → kết quả xuất hiện ngay phía trên."></textarea><div class="actions"><button class="primary" onclick="copyPrompt()">COPY PROMPT</button></div></section>
 <section id="genboxAnchor" class="card full"><label>TẠO ẢNH TỪ PROMPT THIẾT KẾ</label>
 <div class="genbox">
 <div class="genhead"><div><b>GIỮ NGUYÊN ENGINE HOANGGIA AI → GỬI PROMPT SANG AI</b><div class="muted">Engine HOANGGIA AI vẫn suy luận đầy đủ; phần xuất ra chỉ giữ câu lệnh cần thiết để AI tạo ảnh ngay.</div></div><span class="genbadge">IMAGE GENERATION</span></div>
@@ -693,5 +696,42 @@ function studioJump(id){const targetMap={brief:'briefCard',reference:'reference'
  }
  function initCompactStudio(){makeCompactSection('designIntelligence',false);makeCompactSection('artDirection',false);makeCompactSection('render',false);makeCompactSection('genboxAnchor',true);}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initCompactStudio);else initCompactStudio();
+})();
+</script><script>
+(function(){
+ function compactAdvancedBrief(){
+  const card=document.getElementById('briefCard'); if(!card||card.dataset.advancedReady)return;
+  const rows=[...card.querySelectorAll(':scope > .row')]; if(rows.length<2)return;
+  card.dataset.advancedReady='1';
+  const first=rows[0], body=document.createElement('div'); body.className='compactAdvancedBody';
+  rows.slice(1).forEach(x=>body.appendChild(x));
+  const wrap=document.createElement('div'); wrap.className='compactAdvanced';
+  const btn=document.createElement('button'); btn.type='button'; btn.className='compactAdvancedToggle';
+  btn.innerHTML='<span>THIẾT LẬP HÌNH ẢNH & TƯ DUY CHUYÊN SÂU</span><span class="chev">⌄</span>';
+  btn.addEventListener('click',()=>{wrap.classList.toggle('is-open')});
+  wrap.append(btn,body); first.after(wrap);
+ }
+ function makeOptionalCompact(id,open){
+  const el=document.getElementById(id); if(!el||el.dataset.compactReady)return;
+  const label=el.querySelector(':scope > label'); if(!label)return;
+  el.dataset.compactReady='1'; el.classList.add('collapsible');
+  const body=document.createElement('div'); body.className='sectionBody';
+  while(label.nextSibling) body.appendChild(label.nextSibling);
+  const toggle=document.createElement('button'); toggle.type='button'; toggle.className='sectionToggle';
+  toggle.innerHTML='<span>'+label.textContent+'</span><span class="chev">⌄</span>';
+  label.style.display='none'; toggle.addEventListener('click',()=>{el.classList.toggle('is-collapsed')});
+  el.insertBefore(toggle,body); el.appendChild(body); el.classList.toggle('is-collapsed',!open);
+ }
+ function init(){
+  compactAdvancedBrief();
+  makeOptionalCompact('designIntelligence',false);
+  makeOptionalCompact('artDirection',false);
+  makeOptionalCompact('productBox',false);
+  makeOptionalCompact('brandDNA',false);
+  makeOptionalCompact('visualSettings',false);
+  makeOptionalCompact('render',false);
+  makeOptionalCompact('genboxAnchor',true);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script></body></html>
